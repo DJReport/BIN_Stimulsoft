@@ -8,12 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="resources\**" />
+    <EmbeddedResource Remove="resources\**" />
+    <None Remove="resources\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Stimulsoft.Reports.Engine.NetCore" Version="2024.3.2" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="BinInterface">
-      <HintPath>bin_interface-1.0.0-net8.0.dll</HintPath>
+      <HintPath>resources\BinInterface.dll</HintPath>
     </Reference>
   </ItemGroup>
 
