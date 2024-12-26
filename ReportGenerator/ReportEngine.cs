@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// system
+using System;
 using System.Data;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+
+// bin interface
 using BinInterface;
+
+// stimulsoft
 using Stimulsoft.Base;
 using Stimulsoft.Report;
 using Stimulsoft.Report.Components;
 using Stimulsoft.Report.Export;
-using static Stimulsoft.Report.Help.StiHelpProvider;
 
 namespace ReportGenerator
 {
@@ -29,7 +29,6 @@ namespace ReportGenerator
             catch (Exception ex)
             {
                 _lastError = ex.Message;
-                Console.WriteLine(_lastError);
             }
         }
 
@@ -55,7 +54,6 @@ namespace ReportGenerator
             catch (Exception registerEx)
             {
                 _lastError = registerEx.Message;
-                Console.WriteLine(_lastError);
             }
         }
 
@@ -73,45 +71,33 @@ namespace ReportGenerator
                 {
 
                     StiPage wholePage = _stiReport.Pages[0];
-                    Console.WriteLine($"initial height is: {wholePage.PageHeight}");
 
                     // iterating over all page components and find the maximum bottom position over all components
                     double maxBottom = 0;
                     foreach (StiPage page in _stiReport.RenderedPages)
                     {
-                        Console.WriteLine($"This page height is: {page.PageHeight}");
                         foreach (var component in page.Components)
                         {
                             if (component is StiComponent stiComponent)
                             {
                                 double currentBottom = stiComponent.Bottom;
-                                Console.WriteLine($"{stiComponent.Name}: {stiComponent.Bottom}");
                                 maxBottom = Math.Max(maxBottom, currentBottom);
                             }
                         }
                     }
 
                     wholePage.PageHeight = wholePage.Margins.Top + wholePage.Margins.Bottom + maxBottom;
-                    Console.WriteLine($"max bottom is: {maxBottom}");
-                    Console.WriteLine($"top:{wholePage.Margins.Top}, bottom:{wholePage.Margins.Bottom}");
-                    Console.WriteLine($"page height is : {wholePage.PageHeight}");
                     _stiReport = new();
                     StiPage newPage = _stiReport.Pages[0];
-                    Console.WriteLine($"new report current height is: {newPage.Height}");
-                    _stiReport.Pages[0].PageHeight = wholePage.Margins.Top + wholePage.Margins.Bottom + maxBottom;
-                    Console.WriteLine($"new height is {newPage.PageHeight}");
-                    Console.WriteLine($"new height is {_stiReport.Pages[0].PageHeight}");
                     _stiReport.Load(templatePath);
                     _stiReport.RegData(dataSourceName, _reportDataSet);
                     _stiReport.Pages[0].PageHeight = wholePage.Margins.Top + wholePage.Margins.Bottom + maxBottom;
                     _stiReport.Render();
-                    _stiReport.Pages[0].PageHeight = wholePage.Margins.Top + wholePage.Margins.Bottom + maxBottom;
                 }
             }
             catch (Exception renderEx)
             {
                 _lastError = renderEx.Message;
-                Console.WriteLine(_lastError);
             }
         }
 
@@ -123,8 +109,6 @@ namespace ReportGenerator
             try
             {
 
-                Console.WriteLine(_stiReport.Pages[0].PageHeight);
-                Console.WriteLine(_stiReport.Pages.Count);
                 switch (outputType.ToLower())
                 {
                     case "csv":
@@ -296,7 +280,6 @@ namespace ReportGenerator
             catch (Exception exportEx)
             {
                 _lastError = exportEx.Message;
-                Console.WriteLine(_lastError);
             }
         }
 
