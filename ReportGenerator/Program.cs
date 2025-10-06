@@ -1,5 +1,4 @@
 ﻿// stimulsoft
-using Azure;
 using Stimulsoft.Base;
 using Stimulsoft.Report;
 using Stimulsoft.Report.Components;
@@ -7,10 +6,6 @@ using Stimulsoft.Report.Export;
 
 // system
 using System;
-using System.Collections.ObjectModel;
-using System.Data;
-using System.Drawing.Text;
-using System.Text.RegularExpressions;
 
 
 namespace ReportGenerator
@@ -30,13 +25,13 @@ namespace ReportGenerator
         /// <returns>an integer showing if the operation was successful(1) or not (other) </returns>
         static int Main(string[] args)
         {
+
+
+            CustomFunctions.RegisterFunctions();
             ReportEngine reportEngine = new();
             try
             {
-                if (args.Length < 5)
-                {
-                    return 1;
-                }
+                if (args.Length < 5) return 1;
 
                 // obtain input args
                 string reportPath = args[0];
@@ -63,8 +58,9 @@ namespace ReportGenerator
 
                 return 0;
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 Console.WriteLine(reportEngine.GetLastError());
                 return 1;
             }
