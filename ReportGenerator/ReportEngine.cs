@@ -16,6 +16,7 @@ namespace ReportGenerator
 {
     internal class ReportEngine : IReportGenerator
     {
+
         private StiReport _stiReport = new();
         private string? _lastError;
         private DataSet? _reportDataSet;
@@ -42,7 +43,15 @@ namespace ReportGenerator
 
         public void SetLicense(string[] args)
         {
-            StiLicense.Key = args[0];
+            try
+            {
+
+                StiLicense.Key = args[0];
+            }
+            catch
+            {
+                Console.WriteLine("invalid license");
+            }
         }
 
         public void RegisterData(string dataSourceName, object data, string[] args)
