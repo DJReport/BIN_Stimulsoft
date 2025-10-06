@@ -24,6 +24,7 @@ namespace ReportGenerator
         {
             try
             {
+                _stiReport.ScriptLanguage = StiReportLanguageType.CSharp;
                 _stiReport.Load(templatePath);
             }
             catch (Exception ex)
